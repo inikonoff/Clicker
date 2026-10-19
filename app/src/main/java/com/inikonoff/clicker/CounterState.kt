@@ -13,6 +13,10 @@ data class CounterState(
 
     fun minus(): CounterState = change(-step)
 
+    fun plusOne(): CounterState = change(1)
+
+    fun minusOne(): CounterState = change(-1)
+
     fun undo(): CounterState {
         val last = history.lastOrNull() ?: return this
         return copy(count = count - last, history = history.dropLast(1))

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Кликер</string>
     <string name="step_label">Шаг клика</string>
-    <string name="undo">Отменить последний клик</string>
+    <string name="reset">Сброс</string>
     <string name="finish">Завершить</string>
     <string name="finish_title">Завершить подсчёт</string>
     <string name="finish_total">Итог: %1$d</string>

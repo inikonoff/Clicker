@@ -1,5 +1,6 @@
 package com.inikonoff.clicker
 
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -37,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun MainScreen() {
     val state by CounterRepository.state.collectAsStateWithLifecycle()
     var showFinish by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -54,13 +57,7 @@ fun MainScreen() {
                     .clickable { CounterRepository.plus() },
                 contentAlignment = Alignment.Center,
             ) {
-                Text(
-                    text = state.count.toString(),
-                    fontSize = 120.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    maxLines = 1,
-                )
+                DigitDisplay(count = state.count, style = "mechanical")
             }
 
             StepField(step = state.step, onStepChange = CounterRepository::setStep)
@@ -72,14 +69,19 @@ fun MainScreen() {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 OutlinedButton(
-                    onClick = CounterRepository::undo,
-                    enabled = state.history.isNotEmpty(),
+                    onClick = CounterRepository::reset,
                     modifier = Modifier.fillMaxWidth(),
-                ) { Text(stringResource(R.string.undo)) }
+                ) { Text(stringResource(R.string.reset)) }
                 Button(
                     onClick = { showFinish = true },
                     modifier = Modifier.fillMaxWidth(),
                 ) { Text(stringResource(R.string.finish)) }
+                OutlinedButton(
+                    onClick = {
+                        context.startActivity(Intent(context, WindowActivity::class.java))
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                ) { Text("Оконный режим") }
             }
         }
     }

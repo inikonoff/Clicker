@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("counter")
+internal val Context.dataStore: DataStore<Preferences> by preferencesDataStore("counter")
 
 /**
  * Единственный источник правды для счёта: им пользуются и Activity, и (позже) сервис.
@@ -51,6 +51,10 @@ object CounterRepository {
     fun plus() = mutate { it.plus() }
 
     fun minus() = mutate { it.minus() }
+
+    fun plusOne() = mutate { it.plusOne() }
+
+    fun minusOne() = mutate { it.minusOne() }
 
     fun undo() = mutate { it.undo() }
 
